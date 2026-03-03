@@ -44,26 +44,32 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
 
-    // Stripe integration
-    stripeCustomerId: {
+    // Payment fields
+    paymentProvider: {
+        type: String,
+        enum: ['stripe', 'razorpay', 'none'],
+        default: 'none'
+    },
+    paymentProviderCustomerId: {
         type: String,
         default: null
     },
-    stripeSubscriptionId: {
+    paymentProviderSubscriptionId: {
         type: String,
         default: null
     },
 
-    isActive: {
-        type: Boolean,
-        default: true
+    subscriptionStatus: {
+        type: String,
+        enum: ['active', 'canceled', 'past_due', 'unpaid', 'none'],
+        default: 'none'
     }
 },{
     timestamps: true
 });
 
-userSchema.index({ stripeCustomerId: 1 });
-userSchema.index({ stripeSubscriptionId: 1 });
+userSchema.index({ paymentProviderCustomerId: 1 });
+userSchema.index({ paymentProviderSubscriptionId: 1 });
 
 const User = mongoose.model('User', userSchema);
 

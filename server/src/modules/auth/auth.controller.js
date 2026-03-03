@@ -25,7 +25,7 @@ exports.register = handleError(async (req, res) => {
     });
 
     if(plan && plan !== 'free') {
-        // TODO: Integrate Stripe for paid plans and update user with subscription details
+        // TODO: Integrate payment provider for paid plans and update user with subscription details
     }
 
     const token = generateToken({ id: user._id });
