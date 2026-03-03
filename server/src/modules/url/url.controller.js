@@ -4,7 +4,10 @@ const { generateShortCode, validateShortCode } = require('../../utils/shortId');
 const URL = require('../../models/url');
 const User = require('../../models/user');
 const { FRONTEND_URL } = require('../../config/env');
-const { normalizeAndValidateUrl } = require('../../utils/urlValidator')
+const { normalizeAndValidateUrl } = require('../../utils/urlValidator');
+const Click = require('../../models/click');
+const UAParser = require('ua-parser-js');
+const geoip = require('geoip-lite');
 
 exports.createShortUrl = handleError(async (req, res) => {
     const { inputUrl, isCustom, customShortCode } = req.body;
@@ -77,8 +80,28 @@ exports.redirectToOriginalUrl = handleError(async (req, res) => {
     if(!urlEntry){
         return sendResponse(res, 404, false, 'Short URL not found');
     }
-    urlEntry.clicks += 1;
-    await urlEntry.save();
+    await URL.findByIdAndUpdate(
+        urlEntry._id,
+        { $inc: { clicks: 1 } }
+    );
 
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.connection.remoteAddress;
+
+    const parser = new UAParser(req.headers['user-agent']);
+    const uaResult = parser.getResult();
+    
+    const referrer = req.get('referer') || 'unknown';
+    const geo = geoip.lookup(ip);
+
+    await Click.create({
+        url: urlEntry._id,
+        ip,
+        country: geo?.country || 'unknown',
+        city: geo?.city || 'unknown',
+        device: uaResult.device.type || 'unknown',
+        browser: uaResult.browser.name || 'unknown',
+        os: uaResult.os.name || 'unknown',
+        referrer
+    })
     return res.redirect(urlEntry.originalUrl);
 }, 'Failed to redirect to original URL');
