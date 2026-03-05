@@ -15,6 +15,9 @@ router.post('/create',
         validateRequest
     ], 
     authMiddleware.authenticate, planMiddlewate.planCheck, urlController.createShortUrl);
+router.get('/get/all', authMiddleware.authenticate, urlController.getAllUrls);
+router.get('/stats/all', authMiddleware.authenticate, urlController.getAllStats);
 router.get('/:shortCode', urlController.redirectToOriginalUrl);
+router.delete('/:id', authMiddleware.authenticate, urlController.deleteUrl);
 
 module.exports = router;
