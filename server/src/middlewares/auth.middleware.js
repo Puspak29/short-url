@@ -28,3 +28,13 @@ exports.authenticate = handleError(async (req, res, next) => {
     next();
 
 }, 'Authentication failed');
+
+exports.authorize = (plans) => {
+    return handleError(async (req, res, next) => {
+        const user = req.user;
+        if(!plans.includes(user.plan)){
+            return sendResponse(res, 403, false, 'Insufficient permissions');
+        }
+        next();
+    }, 'Authorization failed');
+}
