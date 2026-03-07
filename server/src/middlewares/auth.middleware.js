@@ -33,7 +33,7 @@ exports.authorize = (plans) => {
     return handleError(async (req, res, next) => {
         const user = req.user;
         if(!plans.includes(user.plan)){
-            return sendResponse(res, 403, false, 'Insufficient permissions');
+            return sendResponse(res, 403, false, 'Upgrade your plan to access this feature');
         }
         next();
     }, 'Authorization failed');

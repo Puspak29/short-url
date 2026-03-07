@@ -18,7 +18,7 @@ router.post('/create',
 router.get('/get/all', authMiddleware.authenticate, urlController.getAllUrls);
 router.get('/stats/all', authMiddleware.authenticate, urlController.getAllStats);
 router.get('/stats/:id', authMiddleware.authenticate, authMiddleware.authorize(['pro', 'enterprise']), urlController.getUrlStats);
-router.get('/:shortCode', urlController.redirectToOriginalUrl);
 router.delete('/:id', authMiddleware.authenticate, urlController.deleteUrl);
+router.patch('/:id/disable', authMiddleware.authenticate, urlController.disableUrl);
 
 module.exports = router;

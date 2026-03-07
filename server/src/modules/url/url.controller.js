@@ -132,9 +132,23 @@ exports.deleteUrl = handleError(async(req, res) => {
 
 }, 'Failed to delete URL');
 
+exports.disableUrl = handleError(async(req, res) => {
+    const { id } = req.params;
+    const user = req.user;
+    const urlEntry = await URL.findOne({ _id: id, user: user._id });
+    if(!urlEntry){
+        return sendResponse(res, 404, false, 'URL not found');
+    }
+    urlEntry.isActive = false;
+    await urlEntry.save();
+
+    sendResponse(res, 200, true, 'URL disabled successfully');
+}, 'Failed to disable URL');
+
 exports.getAllUrls = handleError(async(req, res) => {
     const user = req.user;
-    const urls = await URL.find({ user: user._id }).sort({ createdAt: -1 }).select('-clicks -user');
+    const { page = 1, limit = 10 } = req.params;
+    const urls = await URL.find({ user: user._id }).sort({ createdAt: -1 }).select('-clicks -user').limit(limit * 1).skip((page - 1) * limit);
 
     sendResponse(res, 200, true, 'URLs retrieved successfully', { urls });
 }, 'Failed to get URLs');
