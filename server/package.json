@@ -7,9 +7,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --runInBand",
     "dev": "nodemon index.js",
     "start": "node index.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/setup/test-db.js"
+    ]
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -21,7 +27,7 @@
     "geoip-lite": "^1.4.10",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.2.4",
-    "nanoid": "^5.1.6",
+    "nanoid": "^3.3.11",
     "ua-parser-js": "^2.0.9"
   },
   "devDependencies": {

@@ -19,6 +19,6 @@ router.get('/get/all', authMiddleware.authenticate, urlController.getAllUrls);
 router.get('/stats/all', authMiddleware.authenticate, urlController.getAllStats);
 router.get('/stats/:id', authMiddleware.authenticate, authMiddleware.authorize(['pro', 'enterprise']), urlController.getUrlStats);
 router.delete('/:id', authMiddleware.authenticate, urlController.deleteUrl);
-router.patch('/:id/disable', authMiddleware.authenticate, urlController.disableUrl);
+router.patch('/:id/toggle', authMiddleware.authenticate, urlController.toggleUrl);
 
 module.exports = router;

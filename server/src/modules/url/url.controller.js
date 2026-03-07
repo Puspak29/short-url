@@ -132,18 +132,18 @@ exports.deleteUrl = handleError(async(req, res) => {
 
 }, 'Failed to delete URL');
 
-exports.disableUrl = handleError(async(req, res) => {
+exports.toggleUrl = handleError(async(req, res) => {
     const { id } = req.params;
     const user = req.user;
     const urlEntry = await URL.findOne({ _id: id, user: user._id });
     if(!urlEntry){
         return sendResponse(res, 404, false, 'URL not found');
     }
-    urlEntry.isActive = false;
+    urlEntry.isActive = !urlEntry.isActive;
     await urlEntry.save();
 
-    sendResponse(res, 200, true, 'URL disabled successfully');
-}, 'Failed to disable URL');
+    sendResponse(res, 200, true, `URL ${urlEntry.isActive ? 'enabled' : 'disabled'} successfully`);
+}, 'Failed to toggle URL');
 
 exports.getAllUrls = handleError(async(req, res) => {
     const user = req.user;

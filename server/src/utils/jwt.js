@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config/env');
 
-exports.generateToken = (...data) => {
+exports.generateToken = ({ id }) => {
     return jwt.sign(
-        ...data,
+        { id },
         JWT_SECRET,
         { expiresIn: '15d' }
     );
