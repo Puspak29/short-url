@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --runInBand",
-    "dev": "nodemon index.js",
+    "dev": "nodemon --legacy-watch index.js",
     "start": "node index.js"
   },
   "jest": {
