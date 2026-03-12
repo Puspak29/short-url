@@ -3,10 +3,11 @@ const handleError = require('../utils/handleError');
 const sendResponse = require('../utils/sendResponse');
 const User = require('../models/user');
 const { verifyToken } = require('../utils/jwt');
+const logger = require('../utils/logger');
 
 exports.authenticate = handleError(async (req, res, next) => {
     if(!JWT_SECRET){
-        console.error('JWT secret is not configured');
+        logger.error('JWT secret is not configured');
         return sendResponse(res, 500, false, 'JWT secret is not configured');
     }
     const authHeader = req.headers['authorization'];

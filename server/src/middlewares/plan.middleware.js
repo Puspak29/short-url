@@ -1,6 +1,7 @@
 const handleError = require("../utils/handleError");
 const sendResponse = require("../utils/sendResponse");
 const { PLAN_LIMITS } = require('../config/plan');
+const logger = require('../utils/logger');
 
 exports.planCheck = handleError(async (req, res, next) => {
     const user = req.user;
@@ -19,7 +20,7 @@ exports.planCheck = handleError(async (req, res, next) => {
 
     const limits = PLAN_LIMITS[user.plan];
     if(!limits){
-        console.error(`Plan limits not defined for plan: ${user.plan}`);
+        logger.error(`Plan limits not defined`, { plan : user.plan });
         return sendResponse(res, 500, false, 'Plan limits not configured');
     }
     if(user.monthlyUrlCount >= limits.monthlyUrlLimit){
