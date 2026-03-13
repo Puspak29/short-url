@@ -1,10 +1,11 @@
 import { ArrowLeft, Eye, EyeOff, Link2, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
-const AuthView = ({ onSuccess, onBack }: { onSuccess: (planId: string) => void; onBack: () => void }) => {
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+const AuthView = ({ onSuccess, mode }: { onSuccess: (planId: string) => void; mode: 'signin' | 'signup' }) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
@@ -32,7 +33,7 @@ const AuthView = ({ onSuccess, onBack }: { onSuccess: (planId: string) => void; 
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       <button 
-        onClick={onBack}
+        onClick={() => navigate('/')}
         className="absolute top-8 left-8 flex items-center gap-2 text-sm font-bold text-zinc-500 hover:text-white transition group"
       >
         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back
@@ -155,7 +156,7 @@ const AuthView = ({ onSuccess, onBack }: { onSuccess: (planId: string) => void; 
             <p className="text-sm text-zinc-500 font-medium">
               {mode === 'signin' ? "Don't have an account?" : "Already have an account?"}
               <button 
-                onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
+                onClick={() => navigate(`/auth/${mode === 'signin' ? 'signup' : 'signin'}`)}
                 className="ml-2 text-emerald-500 font-black hover:text-emerald-400 transition"
               >
                 {mode === 'signin' ? 'Sign up free' : 'Sign in'}

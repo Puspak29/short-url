@@ -1,8 +1,11 @@
 import { Github, Globe, Link2, Linkedin, Twitter } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+
   
   if (isDashboard) {
     return (
@@ -53,30 +56,30 @@ const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
           <div>
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Platform</h4>
             <ul className="space-y-4 text-sm font-bold text-zinc-500">
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">URL Shortener</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">QR Codes</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Analytics</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">API Access</a></li>
+              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">URL Shortener</button></li>
+              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">QR Codes</button></li>
+              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">Analytics</button></li>
+              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">API Access</button></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Company</h4>
             <ul className="space-y-4 text-sm font-bold text-zinc-500">
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Careers</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Brand Assets</a></li>
+              <li><button onClick={() => navigate('/about')} className="hover:text-emerald-400 transition-colors">About Us</button></li>
+              <li><button onClick={() => navigate('/careers')} className="hover:text-emerald-400 transition-colors">Careers</button></li>
+              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">Pricing</button></li>
+              <li><button onClick={() => navigate('/brand')} className="hover:text-emerald-400 transition-colors">Brand Assets</button></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Resources</h4>
             <ul className="space-y-4 text-sm font-bold text-zinc-500">
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Status</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-emerald-400 transition-colors">Terms of Service</a></li>
+              <li><button onClick={() => navigate('/help')} className="hover:text-emerald-400 transition-colors">Help Center</button></li>
+              <li><button onClick={() => navigate('/status')} className="hover:text-emerald-400 transition-colors">Status</button></li>
+              <li><button onClick={() => navigate('/privacy')} className="hover:text-emerald-400 transition-colors">Privacy Policy</button></li>
+              <li><button onClick={() => navigate('/terms')} className="hover:text-emerald-400 transition-colors">Terms of Service</button></li>
             </ul>
           </div>
         </div>
