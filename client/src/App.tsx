@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { LandingLayout, LegalLayout } from './app/index';
-import { Footer, AuthView } from './components';
+import { Dashboard, LandingLayout, LegalLayout } from './app/index';
+import { Footer, AuthView, DashboardContent, LinkTable, Settings, Billing, GlobalAnalyticsView, LinkDetailsView } from './components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { user } from './userValue';
 
 function App() {
-  const [user, setUser] = useState<any | null>(null);
 
   return (
     <BrowserRouter>
@@ -48,6 +47,18 @@ function App() {
         path="/privacy"
         element={<LegalLayout type="privacy" />}
       />
+      <Route element={<Dashboard />}>
+        <Route path="/dashboard" element={<DashboardContent />} />
+        <Route path="/links" element={(
+          <div className="bg-zinc-900 rounded-[2.5rem] border border-zinc-800 shadow-sm overflow-hidden">
+            <LinkTable />
+          </div>
+        )} />
+        <Route path="/analytics" element={<GlobalAnalyticsView />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/billing" element={<Billing />} />
+        <Route path="/links/:slug" element={<LinkDetailsView />}/>
+      </Route>
     </Routes>
     </div>
     </BrowserRouter>
