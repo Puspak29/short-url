@@ -47,7 +47,7 @@ const LinkTable = () => {
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span
-                  className={`text-sm font-black cursor-pointer hover:underline transition-colors ${link.status === 'inactive' ? 'text-zinc-700 line-through' : 'text-emerald-500'}`}
+                  className={`text-[10px] font-black cursor-pointer hover:underline transition-colors ${link.status === 'inactive' ? 'text-zinc-700 line-through' : 'text-emerald-500'}`}
                   onClick={() => onView(link)}
                 >
                   {DOMAIN}/{link.slug}
@@ -110,7 +110,7 @@ const LinkTable = () => {
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2">
               <span
-                className={`text-sm font-black cursor-pointer hover:underline transition-colors truncate ${link.status === 'inactive' ? 'text-zinc-700 line-through' : 'text-emerald-500'}`}
+                className={`text-sm font-black cursor-pointer hover:underline transition-colors break-all ${link.status === 'inactive' ? 'text-zinc-700 line-through' : 'text-emerald-500'}`}
                 onClick={() => onView(link)}
               >
                 {DOMAIN}/{link.slug}
@@ -119,7 +119,7 @@ const LinkTable = () => {
                 <Copy className="w-3 h-3" />
               </button>
             </div>
-            <span className="text-[10px] text-zinc-600 font-mono truncate">{link.original}</span>
+            <span className="text-[10px] text-zinc-600 font-mono break-all">{link.original}</span>
           </div>
           {/* Actions always visible on mobile */}
           <div className="flex items-center gap-1 shrink-0">
@@ -140,7 +140,7 @@ const LinkTable = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Engagement</span>
-            <span className={`text-lg font-black ${link.status === 'inactive' ? 'text-zinc-700' : 'text-white'}`}>
+            <span className={`text-sm font-black ${link.status === 'inactive' ? 'text-zinc-700' : 'text-white'}`}>
               {link.clicks.toLocaleString()}
             </span>
             {link.status === 'active' && (

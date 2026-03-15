@@ -24,7 +24,7 @@ const DashboardContent = () => {
       <div className="space-y-10">
         <div className="bg-zinc-900 p-5 md:p-8 rounded-[2.5rem] border border-zinc-800 shadow-xl">
           <form onSubmit={onSubmit} className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-bold text-zinc-300 mb-2">Destination URL</label>
                 <input 
@@ -45,13 +45,13 @@ const DashboardContent = () => {
                     </Link>
                   )}
                 </div>
-                <div className="flex">
-                  <span className="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-zinc-800 bg-zinc-950 text-zinc-600 text-sm font-medium">{DOMAIN}/</span>
+                <div className="flex w-full min-w-0">
+                  <span className="inline-flex shrink-0 items-center px-4 rounded-l-xl border border-r-0 border-zinc-800 bg-zinc-950 text-zinc-600 text-sm font-medium">{DOMAIN}/</span>
                   <input 
                     type="text" 
                     disabled={user.plan === 'free'}
                     placeholder={user.plan === 'free' ? "Upgrade for alias" : "alias"}
-                    className="flex-1 bg-zinc-950 border border-zinc-800 rounded-r-xl px-4 py-3 text-sm text-zinc-100 focus:ring-2 focus:ring-emerald-500 outline-none transition disabled:bg-zinc-900 disabled:text-zinc-700"
+                    className="flex-1 min-w-0 bg-zinc-950 border border-zinc-800 rounded-r-xl px-4 py-3 text-sm text-zinc-100 focus:ring-2 focus:ring-emerald-500 outline-none transition disabled:bg-zinc-900 disabled:text-zinc-700"
                     value={alias}
                     onChange={(e) => setAlias(e.target.value.toLowerCase())}
                   />

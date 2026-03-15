@@ -37,13 +37,13 @@ const LinkDetailsView = () => {
 
     <div className="bg-zinc-900 p-8 rounded-[2.5rem] border border-zinc-800 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
       <div className="space-y-1">
-        <h2 className="text-2xl font-black text-white flex items-center gap-3">
+        <h2 className="text-md font-black text-white flex items-center gap-3">
           {DOMAIN}/{link.slug}
           <span className={`text-[10px] px-2 py-0.5 rounded-full border ${link.status === 'active' ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-zinc-800 text-zinc-500 border-zinc-700'}`}>
             {link.status.toUpperCase()}
           </span>
         </h2>
-        <p className="text-zinc-500 font-medium truncate max-w-md font-mono text-xs">{link.original}</p>
+        <p className="text-zinc-500 font-medium break-all max-w-md font-mono text-xs">{link.original}</p>
       </div>
       <div className="flex gap-3">
         <button onClick={() => onCopy(`${DOMAIN}/${link.slug}`)} className="flex items-center gap-2 px-5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-sm font-bold text-zinc-300 hover:bg-zinc-900 transition">
