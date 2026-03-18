@@ -81,30 +81,34 @@ exports.redirectToOriginalUrl = handleError(async (req, res) => {
     if(!urlEntry){
         return sendResponse(res, 404, false, 'Short URL not found');
     }
-    await URL.findByIdAndUpdate(
-        urlEntry._id,
-        { $inc: { clicks: 1 } }
-    );
-
-    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.connection.remoteAddress;
-
-    const parser = new UAParser(req.headers['user-agent']);
-    const uaResult = parser.getResult();
     
-    const referrer = req.get('referer') || 'unknown';
-    const geo = geoip.lookup(ip);
+    res.redirect(urlEntry.originalUrl);
 
-    await Click.create({
-        url: urlEntry._id,
-        ip,
-        country: geo?.country || 'unknown',
-        city: geo?.city || 'unknown',
-        device: uaResult.device.type || 'unknown',
-        browser: uaResult.browser.name || 'unknown',
-        os: uaResult.os.name || 'unknown',
-        referrer
-    })
-    return res.redirect(urlEntry.originalUrl);
+    setImmediate(async () => {
+        await URL.findByIdAndUpdate(
+            urlEntry._id,
+            { $inc: { clicks: 1 } }
+        );
+
+        const ip = req.ip;
+
+        const parser = new UAParser(req.headers['user-agent']);
+        const uaResult = parser.getResult();
+        
+        const referrer = req.get('referer') || 'unknown';
+        const geo = geoip.lookup(ip);
+
+        await Click.create({
+            url: urlEntry._id,
+            ip,
+            country: geo?.country || 'unknown',
+            city: geo?.city || 'unknown',
+            device: uaResult.device.type || 'unknown',
+            browser: uaResult.browser.name || 'unknown',
+            os: uaResult.os.name || 'unknown',
+            referrer
+        });
+    });
 }, 'Failed to redirect to original URL');
 
 exports.deleteUrl = handleError(async(req, res) => {

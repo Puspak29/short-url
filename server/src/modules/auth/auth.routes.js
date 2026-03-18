@@ -12,8 +12,6 @@ router.post('/register',
             .withMessage('Valid email is required'),
         body('password').trim().isStrongPassword({ minLength: 6, minNumbers: 1, minLowercase: 1, minUppercase: 1, minSymbols: 1 })
             .withMessage('Password must be at least 6 characters long with at least one number, one lowercase letter, one uppercase letter, and one symbol'),
-        body('plan').optional().trim().isIn(['free', 'pro', 'enterprise'])
-            .withMessage('Invalid plan selected'),
         validateRequest
     ], 
     authController.register);

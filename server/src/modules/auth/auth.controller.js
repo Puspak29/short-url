@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const { generateToken } = require('../../utils/jwt');
 
 exports.register = handleError(async (req, res) => {
-    const { name, email, password, plan } = req.body;
+    const { name, email, password } = req.body;
 
     const existingUser = await User.findOne({ email });
     if(existingUser){
@@ -23,10 +23,6 @@ exports.register = handleError(async (req, res) => {
         selectedPlan: 'free',
         monthlyResetDate: resetDate
     });
-
-    if(plan && plan !== 'free') {
-        // TODO: Integrate payment provider for paid plans and update user with subscription details
-    }
 
     const token = generateToken({ id: user._id });
 
