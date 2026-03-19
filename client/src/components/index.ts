@@ -8,6 +8,8 @@ import LinkDetailsView from "./LinkDetailsView";
 import Settings from "./Settings";
 import Billing from "./Billing";
 import GlobalAnalyticsView from "./GlobalAnalyticsView";
+import Toast from "./Toast";
+import ToastContainer from "./ToastContainer";
 
 export {
   AuthView,
@@ -19,5 +21,7 @@ export {
   LinkDetailsView,
   Settings,
   Billing,
-  GlobalAnalyticsView
+  GlobalAnalyticsView,
+  Toast,
+  ToastContainer
 }

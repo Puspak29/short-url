@@ -1,5 +1,5 @@
 import { Dashboard, LandingLayout, LegalLayout } from './app/index';
-import { Footer, AuthView, DashboardContent, LinkTable, Settings, Billing, GlobalAnalyticsView, LinkDetailsView } from './components';
+import { Footer, AuthView, DashboardContent, LinkTable, Settings, Billing, GlobalAnalyticsView, LinkDetailsView, ToastContainer } from './components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { user } from './userValue';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
     <div className='min-h-screen font-sans antialiased text-zinc-100 selection:bg-emerald-600 selection:text-white flex flex-col bg-zinc-950'>
-
+    <ToastContainer />
       <Routes>
       <Route
         path="/"

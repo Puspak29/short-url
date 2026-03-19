@@ -1,15 +1,13 @@
 import { ArrowLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 const LegalLayout = ({ type }: { type: 'terms' | 'privacy' }) => {
   const isTerms = type === 'terms';
-  const navigate = useNavigate();
   
   return (
     <div className="bg-zinc-950 pt-32 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
-        <button onClick={() => navigate('/')} className="flex items-center gap-2 text-sm font-bold text-emerald-500 mb-8 hover:gap-3 transition-all">
+        <button onClick={() => window.history.back()} className="flex items-center gap-2 text-sm font-bold text-emerald-500 mb-8 hover:gap-3 transition-all">
           <ArrowLeft size={16} /> Back to Home
         </button>
         

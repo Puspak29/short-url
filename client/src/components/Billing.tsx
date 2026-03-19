@@ -2,8 +2,8 @@ import { user } from '../userValue'
 
 const PLANS = [
     { id: 'free', name: 'Free Plan', price: '$0/mo' },
-    { id: 'pro', name: 'Pro Plan', price: '$9.99/mo' },
-    { id: 'enterprise', name: 'Enterprise Plan', price: '$29.99/mo' },
+    { id: 'pro', name: 'Pro Plan', price: '$19/mo' },
+    { id: 'enterprise', name: 'Enterprise Plan', price: '$59/mo' },
 ]
 
 function Billing() {
