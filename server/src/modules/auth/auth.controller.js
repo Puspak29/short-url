@@ -45,3 +45,19 @@ exports.login = handleError(async (req, res) => {
     const token = generateToken({ id: user._id });
     sendResponse(res, 200, true, 'Login successful', { token });
 }, 'Failed to login');
+
+exports.checkAuth = handleError(async (req, res) => {
+    const user = req.user;
+    if(!user) {
+        return sendResponse(res, 401, false, 'Not authenticated');
+    }
+
+    sendResponse(res, 200, true, 'Authenticated', { 
+        user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            plan: user.plan
+        }
+    })
+}, 'Failed to check authentication');
