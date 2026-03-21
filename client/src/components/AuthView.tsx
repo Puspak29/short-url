@@ -1,10 +1,13 @@
 import { ArrowLeft, Eye, EyeOff, Link2, Lock, Mail, User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userLogin, userSignup } from "../actions/userAction";
+import { useToastStore } from "../stores/useToastStore";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
-const AuthView = ({ onSuccess, mode }: { onSuccess: (planId: string) => void; mode: 'signin' | 'signup' }) => {
+const AuthView = ({ mode }: { mode: 'signin' | 'signup' }) => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
@@ -16,14 +19,66 @@ const AuthView = ({ onSuccess, mode }: { onSuccess: (planId: string) => void; mo
 
   const [isSame, setIsSame] = useState<boolean>(true);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const { addToast } = useToastStore();
+  const { setIsAuthenticated } = useAuthStore();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const isValid = email && password && (mode === 'signin' || (mode === 'signup' && fullName && confirmPassword && password === confirmPassword));
+    if (!isValid) {
+      addToast({
+        type: 'error',
+        message: 'Please fill in all required fields.'
+      });
+      return;
+    }
     setLoading(true);
-    // Simulate API delay
-    setTimeout(() => {
+
+    try {
+      if (mode === 'signup'){
+        const res = await userSignup({ email, password, fullName });
+        if (res.success) {
+          addToast({
+            type: 'success',
+            message: 'Account created successfully!'
+          });
+          setIsAuthenticated(true);
+          navigate('/dashboard');
+        }
+        else {
+          addToast({
+            type: 'error',
+            message: res.message || 'Signup failed. Please try again.'
+          });
+        }
+      }
+      else {
+        const res = await userLogin({ email, password });
+        if (res.success) {
+          addToast({
+            type: 'success',
+            message: 'Logged in successfully!'
+          });
+          setIsAuthenticated(true);
+          navigate('/dashboard');
+        } else {
+          addToast({
+            type: 'error',
+            message: res.message || 'Login failed. Please try again.'
+          });
+        }
+      }
+    }
+    catch (error) {
+      addToast({
+        type: 'error',
+        message: 'An error occurred. Please try again.'
+      });
+    }
+    finally {
       setLoading(false);
-      onSuccess('free');
-    }, 1200);
+    }
   };
 
   return (

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Footer, SidebarItem } from '../components';
 import { BarChart3, CreditCard, LayoutDashboard, Link2, LogOut, Search, Settings, Menu } from 'lucide-react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { user, linkValues } from '../userValue';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { linkValues } from '../userValue';
+import { useAuthStore } from '../stores/useAuthStore';
+import { useToastStore } from '../stores/useToastStore';
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
@@ -11,12 +13,31 @@ function Dashboard() {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [links, setLinks] = useState<any[]>([]);
     const activePath = useLocation();
-    
+    const { user, isLoading, logout } = useAuthStore();
+    const { addToast } = useToastStore();
+    const navigate = useNavigate();
+
     useEffect(() => {
         setLinks(linkValues);
     }, []);
 
-   
+    const logOut = () => {
+        logout();
+        localStorage.removeItem('shorturltoken');
+        addToast({
+            message: 'Logged out successfully!',
+            type: 'success'
+        });
+        navigate('/auth/signin');
+    }
+
+   if(isLoading) {
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-zinc-950"> 
+            <div className="w-16 h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+    )
+   }
 
   return (
     <div className="flex flex-1 min-h-screen bg-zinc-950">
@@ -54,7 +75,7 @@ function Dashboard() {
             </div>
         </div>
         <div className="p-6 border-t border-zinc-900">
-            <button onClick={() => null} className="flex items-center gap-3 text-sm font-bold text-rose-500 hover:text-rose-400 transition w-full">
+            <button onClick={logOut} className="flex items-center gap-3 text-sm font-bold text-rose-500 hover:text-rose-400 transition w-full">
             <LogOut className="w-4 h-4" /> Sign Out
             </button>
         </div>
@@ -77,7 +98,7 @@ function Dashboard() {
             {/* <button className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 hover:text-white transition">
                 <Mail className="w-4 h-4" />
             </button> */}
-            <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center font-black text-[10px]">{user.name.trim().split(/\s+/).map(n => n[0]).join("").toUpperCase()}</div>
+            <div className="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center font-black text-[10px]">{user?.name.trim().split(/\s+/).map(n => n[0]).join("").toUpperCase()}</div>
             </div>
         </header>
 

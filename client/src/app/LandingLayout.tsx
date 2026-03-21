@@ -1,5 +1,6 @@
 import { CheckCircle2, Link2, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../stores/useAuthStore";
 
 
 const SERVICE_TIERS = [
@@ -57,8 +58,9 @@ const SERVICE_TIERS = [
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
-const LandingLayout = ({ user }: { user: any }) => {
+const LandingLayout = () => {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
   return (
   <div className="bg-zinc-950">
       <nav className="fixed w-full z-40 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900">

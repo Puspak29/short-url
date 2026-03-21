@@ -1,9 +1,16 @@
 import { Dashboard, LandingLayout, LegalLayout } from './app/index';
 import { Footer, AuthView, DashboardContent, LinkTable, Settings, Billing, GlobalAnalyticsView, LinkDetailsView, ToastContainer } from './components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { user } from './userValue';
+import { useAuthStore } from './stores/useAuthStore';
+import { useEffect } from 'react';
 
 function App() {
+  const { checkAuthStatus, isAuthenticated } = useAuthStore();
+
+  useEffect(() => {
+    checkAuthStatus();
+  }, [isAuthenticated]);
+
 
   return (
     <BrowserRouter>
@@ -15,7 +22,7 @@ function App() {
         element={
         <>
           <div className="flex-1">
-            <LandingLayout user={user} />
+            <LandingLayout />
           </div>
           <Footer isDashboard={false} />
         </>
@@ -25,7 +32,6 @@ function App() {
         path="/auth/signin"
         element={
           <AuthView 
-            onSuccess={() => null} 
             mode="signin" 
           />
         }
@@ -33,8 +39,7 @@ function App() {
       <Route
         path="/auth/signup"
         element={
-          <AuthView 
-            onSuccess={() => null} 
+          <AuthView  
             mode="signup" 
           />
         }

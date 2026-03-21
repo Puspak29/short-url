@@ -7,3 +7,10 @@ export interface User {
     plan: planType
 }
 
+export interface Link {
+    id: string,
+    originalUrl: string,
+    shortUrl: string,
+    createdAt: string,
+    clicks: number
+}
