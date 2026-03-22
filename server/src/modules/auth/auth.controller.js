@@ -3,6 +3,8 @@ const handleError = require('../../utils/handleError');
 const sendResponse = require('../../utils/sendResponse');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../../utils/jwt');
+const URL = require('../../models/url');
+const dashboardStatsService = require('./dashboard.stats.service');
 
 exports.register = handleError(async (req, res) => {
     const { name, email, password } = req.body;
@@ -20,7 +22,6 @@ exports.register = handleError(async (req, res) => {
         name,
         email,
         password: hashedPassword,
-        selectedPlan: 'free',
         monthlyResetDate: resetDate
     });
 
@@ -52,12 +53,18 @@ exports.checkAuth = handleError(async (req, res) => {
         return sendResponse(res, 401, false, 'Not authenticated');
     }
 
+    const { stats, lastFiveLinks } = await dashboardStatsService.getDashboardStats(user._id, user.plan);
+
     sendResponse(res, 200, true, 'Authenticated', { 
         user: {
             id: user._id,
             name: user.name,
             email: user.email,
             plan: user.plan
+        },
+        dashboardData: {
+            stats,
+            lastFiveLinks
         }
     })
 }, 'Failed to check authentication');
