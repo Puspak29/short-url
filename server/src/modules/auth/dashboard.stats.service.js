@@ -29,7 +29,7 @@ exports.getDashboardStats = async (userId, plan) => {
     totalLinks: 0
   };
 
-  let selectedFields = "shortUrl originalUrl isCustom createdAt";
+  let selectedFields = "shortUrl originalUrl isCustom isActive createdAt";
   if (plan === "pro" || plan === "enterprise") {
     selectedFields += " clicks";
   }
