@@ -12,5 +12,7 @@ export interface Link {
     originalUrl: string,
     shortUrl: string,
     createdAt: string,
-    clicks: number
+    clicks?: number,
+    isActive?: boolean,
+    isCustom?: boolean
 }

@@ -1,20 +1,27 @@
-import { Link2, MousePointer2, Plus, TrendingUp } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Link2, MousePointer2, Plus, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 import { LinkTable, StatCard } from ".";
 import { Link } from "react-router-dom";
-import { user, linkValues } from "../userValue";
+import { useAuthStore } from "../stores/useAuthStore";
 
 const DOMAIN = import.meta.env.VITE_DOMAIN;
 
 const DashboardContent = () => {
     const [newUrl, setNewUrl] = useState<string>('');
     const [alias, setAlias] = useState<string>('');
-    const [links, setLinks] = useState<any[]>([]);
+    const [dashboardStats, setDashboardStats] = useState({
+        activeLinks: 0,
+        customLinks: 0,
+        totalClicks: 0,
+        totalLinks: 0
+    });
+    const { user, dashboardData } = useAuthStore();
     
     useEffect(() => {
-      setLinks(linkValues);
-    }, []);
-    const totalClicks = useMemo(() => links.reduce((acc, curr) => acc + curr.clicks, 0), [links]);
+        setDashboardStats(dashboardData.stats);
+      console.log("Dashboard Data Updated:", dashboardData);
+    }, [dashboardData.stats]);
+  
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       console.log("Creating short link for:", newUrl, "with alias:", alias);
@@ -65,9 +72,9 @@ const DashboardContent = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard label="Total Clicks" val={totalClicks.toLocaleString()} icon={MousePointer2} color="text-emerald-500" />
-          <StatCard label="Active Links" val={links.filter(l => l.status === 'active').length} icon={Link2} color="text-emerald-400" />
-          <StatCard label="Growth" val="+14.2%" icon={TrendingUp} color="text-emerald-600" />
+          <StatCard label="Total Clicks" val={dashboardStats.totalClicks.toLocaleString()} icon={MousePointer2} color="text-emerald-500" />
+          <StatCard label="Active Links" val={dashboardStats.activeLinks} icon={Link2} color="text-emerald-400" />
+          <StatCard label="Custom Links" val={dashboardStats.customLinks} icon={Star} color="text-emerald-600" />
         </div>
 
         <div className="bg-zinc-900 rounded-[2.5rem] border border-zinc-800 shadow-sm overflow-hidden">

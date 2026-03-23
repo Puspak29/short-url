@@ -1,25 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Footer, SidebarItem } from '../components';
 import { BarChart3, CreditCard, LayoutDashboard, Link2, LogOut, Search, Settings, Menu } from 'lucide-react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { linkValues } from '../userValue';
 import { useAuthStore } from '../stores/useAuthStore';
 import { useToastStore } from '../stores/useToastStore';
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 
+const userPlanLimits = {
+    free: 10,
+    pro: 100,
+    enterprise: 1000
+}
+
 function Dashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [links, setLinks] = useState<any[]>([]);
     const activePath = useLocation();
-    const { user, isLoading, logout } = useAuthStore();
+    const { user, isLoading, logout, dashboardData } = useAuthStore();
     const { addToast } = useToastStore();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        setLinks(linkValues);
-    }, []);
 
     const logOut = () => {
         logout();
@@ -65,9 +65,9 @@ function Dashboard() {
                 <span className="text-[10px] font-bold bg-emerald-600 text-white px-2 py-0.5 rounded-full capitalize">{user?.plan}</span>
                 </div>
                 <div className="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden mb-2">
-                <div className="bg-emerald-600 h-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" style={{ width: user?.plan === 'free' ? `${(links.length / 5) * 100}%` : '10%' }}></div>
+                <div className="bg-emerald-600 h-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" style={{ width: user?.plan === 'free' ? `${(dashboardData?.stats?.totalLinks / userPlanLimits[user?.plan as keyof typeof userPlanLimits]) * 100}%` : '10%' }}></div>
                 </div>
-                <p className="text-[10px] text-zinc-600 mb-3">{links.length} / {user?.plan === 'free' ? '5' : '∞'} used</p>
+                <p className="text-[10px] text-zinc-600 mb-3">{dashboardData?.stats?.totalLinks} / {userPlanLimits[user?.plan as keyof typeof userPlanLimits] || '∞'} used</p>
                 {user?.plan === 'free' && (
                 <Link to="/billing" className="w-full py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-500 transition shadow-lg shadow-emerald-900/20">Upgrade</Link>
                 )}
