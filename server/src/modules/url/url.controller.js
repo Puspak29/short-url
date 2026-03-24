@@ -151,7 +151,7 @@ exports.toggleUrl = handleError(async(req, res) => {
 
 exports.getAllUrls = handleError(async(req, res) => {
     const user = req.user;
-    const { page = 1, limit = 10 } = req.params;
+    const { page = 1, limit = 10 } = req.query;
     const urls = await URL.find({ user: user._id }).sort({ createdAt: -1 }).select('-clicks -user').limit(limit * 1).skip((page - 1) * limit);
 
     sendResponse(res, 200, true, 'URLs retrieved successfully', { urls });
