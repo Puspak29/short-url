@@ -1,4 +1,4 @@
-import { user } from '../userValue'
+import { useAuthStore } from '../stores/useAuthStore';
 
 const PLANS = [
     { id: 'free', name: 'Free Plan', price: '$0/mo' },
@@ -7,6 +7,7 @@ const PLANS = [
 ]
 
 function Billing() {
+  const { user } = useAuthStore();
   return (
     <div className="max-w-4xl mx-auto py-8">
         <div className="grid md:grid-cols-3 gap-6">

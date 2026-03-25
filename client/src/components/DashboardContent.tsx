@@ -21,6 +21,19 @@ const DashboardContent = () => {
         setDashboardStats(dashboardData.stats);
       console.log("Dashboard Data Updated:", dashboardData);
     }, [dashboardData.stats]);
+
+    const isAliasValid = (plan: string, aliasCount: number) => {
+      if (plan === 'free') {
+        return aliasCount < 2;
+      }
+      else if (plan === 'pro') {
+        return aliasCount < 20;
+      }
+      else if (plan === 'enterprise') {
+        return aliasCount < 200;
+      }
+      return false;
+    }
   
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
@@ -46,9 +59,9 @@ const DashboardContent = () => {
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <label className="block text-sm font-bold text-zinc-300">Custom Alias</label>
-                  {user?.plan === 'free' && (
+                  {!isAliasValid(user?.plan || 'free', dashboardStats.customLinks) && (
                     <Link to="/billing" className="text-[10px] font-black text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
-                      UNLOCK PRO
+                      UNLOCK MORE
                     </Link>
                   )}
                 </div>
@@ -56,8 +69,8 @@ const DashboardContent = () => {
                   <span className="inline-flex shrink-0 items-center px-4 rounded-l-xl border border-r-0 border-zinc-800 bg-zinc-950 text-zinc-600 text-sm font-medium">{DOMAIN}/</span>
                   <input 
                     type="text" 
-                    disabled={user?.plan === 'free'}
-                    placeholder={user?.plan === 'free' ? "Upgrade for alias" : "alias"}
+                    disabled={!isAliasValid(user?.plan || 'free', dashboardStats.customLinks)}
+                    placeholder={isAliasValid(user?.plan || 'free', dashboardStats.customLinks) ? "your-alias" : "You've reached your alias limit. Upgrade to create more!"}
                     className="flex-1 min-w-0 bg-zinc-950 border border-zinc-800 rounded-r-xl px-4 py-3 text-sm text-zinc-100 focus:ring-2 focus:ring-emerald-500 outline-none transition disabled:bg-zinc-900 disabled:text-zinc-700"
                     value={alias}
                     onChange={(e) => setAlias(e.target.value.toLowerCase())}

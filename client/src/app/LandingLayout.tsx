@@ -91,7 +91,7 @@ const LandingLayout = () => {
             Shorten links, <br /><span className="text-transparent bg-clip-text bg-linear-to-r from-emerald-400 to-emerald-600">grow brands.</span>
           </h1>
           <p className="text-xl text-zinc-500 mb-12 max-w-xl mx-auto font-medium">Reliable link infrastructure and real-time analytics for the modern web.</p>
-          <button onClick={() => navigate('/auth/signup')} className="bg-emerald-600 text-white px-10 py-5 rounded-2xl text-lg font-black shadow-xl shadow-emerald-900/40 hover:-translate-y-1 transition">Let's Get Started</button>
+          <button onClick={() => user ? navigate('/dashboard') : navigate('/auth/signup')} className="bg-emerald-600 text-white px-10 py-5 rounded-2xl text-lg font-black shadow-xl shadow-emerald-900/40 hover:-translate-y-1 transition">Let's Get Started</button>
         </div>
       </section>
 
