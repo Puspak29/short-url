@@ -92,7 +92,7 @@ describe('URL routes', () => {
         await createUrl(user._id, { shortUrl: 'test456' });
 
         const res = await request(app)
-            .get('/api/url/get/all')
+            .get('/api/url')
             .set('Authorization', `Bearer ${token}`);
 
         expect(res.statusCode).toBe(200);
