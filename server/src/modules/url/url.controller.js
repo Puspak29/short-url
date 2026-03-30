@@ -50,7 +50,7 @@ exports.createShortUrl = handleError(async (req, res) => {
         }
     }
 
-    await URL.create({
+    const urlEntry = await URL.create({
         shortUrl: shortCode,
         originalUrl,
         isCustom: isCustom ? true : false,
@@ -69,9 +69,14 @@ exports.createShortUrl = handleError(async (req, res) => {
     await User.findByIdAndUpdate(user._id, updatedData);
 
     sendResponse(res, 201, true, 'Short URL created successfully', {
-        shortUrl: `${FRONTEND_URL}/${shortCode}`,
-        originalUrl: originalUrl,
-
+        urlEntry: {
+            id: urlEntry._id,
+            shortUrl: urlEntry.shortCode,
+            originalUrl: urlEntry.originalUrl,
+            isCustom: urlEntry.isCustom,
+            isActive: urlEntry.isActive,
+            createdAt: urlEntry.createdAt
+        }
     })
 }, 'Failed to create short URL');
 
@@ -151,10 +156,25 @@ exports.toggleUrl = handleError(async(req, res) => {
 
 exports.getAllUrls = handleError(async(req, res) => {
     const user = req.user;
+    const plan = user.plan;
     const { page = 1, limit = 10 } = req.query;
-    const urls = await URL.find({ user: user._id }).sort({ createdAt: -1 }).select('-clicks -user').limit(limit * 1).skip((page - 1) * limit);
 
-    sendResponse(res, 200, true, 'URLs retrieved successfully', { urls });
+    let selectedFields = "shortUrl originalUrl isCustom isActive createdAt";
+    if (plan === "pro" || plan === "enterprise") {
+        selectedFields += " clicks";
+    }
+    const urls = await URL.find({ user: user._id }).sort({ createdAt: -1 }).select(selectedFields).limit(limit * 1).skip((page - 1) * limit);
+    const totalUrls = await URL.countDocuments({ user: user._id });
+
+    sendResponse(res, 200, true, 'URLs retrieved successfully', { 
+        urls,
+        pagination: {
+            total: totalUrls,
+            page: Number(page),
+            limit: Number(limit),
+            totalPages: Math.ceil(totalUrls / limit)
+        }
+    });
 }, 'Failed to get URLs');
 
 exports.getAllStats = handleError(async(req, res) => {

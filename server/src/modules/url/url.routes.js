@@ -15,10 +15,11 @@ router.post('/create',
         validateRequest
     ], 
     authMiddleware.authenticate, planMiddlewate.planCheck, urlController.createShortUrl);
-router.get('/get', authMiddleware.authenticate, urlController.getAllUrls);
+
 router.get('/stats/all', authMiddleware.authenticate, urlController.getAllStats);
 router.get('/stats/:id', authMiddleware.authenticate, authMiddleware.authorize(['pro', 'enterprise']), urlController.getUrlStats);
 router.delete('/:id', authMiddleware.authenticate, urlController.deleteUrl);
 router.patch('/:id/toggle', authMiddleware.authenticate, urlController.toggleUrl);
+router.get('/', authMiddleware.authenticate, urlController.getAllUrls);
 
 module.exports = router;
