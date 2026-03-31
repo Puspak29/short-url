@@ -6,5 +6,6 @@ module.exports = {
     JWT_SECRET: process.env.JWT_SECRET,
     NODE_ENV: process.env.NODE_ENV || 'development',
     BACKEND_URL: process.env.BACKEND_URL,
-    FRONTEND_URL: process.env.FRONTEND_URL
+    FRONTEND_URL: process.env.FRONTEND_URL,
+    REDIS_URL: process.env.REDIS_URL
 }

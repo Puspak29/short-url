@@ -6,6 +6,7 @@ const urlRoutes = require('./modules/url/url.routes');
 const redirectRoutes = require('./modules/url/redirect.routes');
 const subscriptionRoutes = require('./modules/subscription/subscription.routes');
 const requestLogger = require('./middlewares/requestLogger');
+const { rateLimiter } = require('./middlewares/rateLimiter');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
     return sendResponse(res, 200, true, 'Short URL API is running');
 });
 
+app.use('/api', rateLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/url', urlRoutes);
 app.use('/api/subscription', subscriptionRoutes);

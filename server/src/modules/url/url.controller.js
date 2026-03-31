@@ -9,6 +9,8 @@ const Click = require('../../models/click');
 const UAParser = require('ua-parser-js');
 const geoip = require('geoip-lite');
 const urlStatsService = require('./url.stats.service');
+const { getRedisClient } = require('../../config/redis');
+const logger = require('../../utils/logger');
 
 exports.createShortUrl = handleError(async (req, res) => {
     const { inputUrl, isCustom, customShortCode } = req.body;
@@ -82,16 +84,36 @@ exports.createShortUrl = handleError(async (req, res) => {
 
 exports.redirectToOriginalUrl = handleError(async (req, res) => {
     const { shortCode } = req.params;
-    const urlEntry = await URL.findOne({ shortUrl: shortCode, isActive: true });
-    if(!urlEntry){
-        return sendResponse(res, 404, false, 'Short URL not found');
+    const CACHE_TTL = 60 * 15; // 15 minutes
+    const redisClient = getRedisClient();
+    const cacheKey = `shortUrl:${shortCode}`;
+    
+    let cached = await redisClient.get(cacheKey);
+    let urlEntry;
+    if(cached){
+        cached = JSON.parse(cached);
+        logger.info(`Cache hit for short code: ${shortCode}`);
+    }
+    else{
+        urlEntry = await URL.findOne({ shortUrl: shortCode, isActive: true });
+        if(!urlEntry){
+            return sendResponse(res, 404, false, 'Short URL not found');
+        }
+
+        cached = {
+            originalUrl: urlEntry.originalUrl,
+            _id: urlEntry._id
+        }
+
+        await redisClient.set(cacheKey, JSON.stringify(cached), { EX: CACHE_TTL });
+        logger.info(`Cache miss for short code: ${shortCode}. Data cached for future requests.`);
     }
     
-    res.redirect(urlEntry.originalUrl);
+    res.redirect(cached.originalUrl);
 
     setImmediate(async () => {
         await URL.findByIdAndUpdate(
-            urlEntry._id,
+            cached._id,
             { $inc: { clicks: 1 } }
         );
 
@@ -104,7 +126,7 @@ exports.redirectToOriginalUrl = handleError(async (req, res) => {
         const geo = geoip.lookup(ip);
 
         await Click.create({
-            url: urlEntry._id,
+            url: cached._id,
             ip,
             country: geo?.country || 'unknown',
             city: geo?.city || 'unknown',
