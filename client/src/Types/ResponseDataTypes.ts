@@ -1,14 +1,14 @@
 export type planType = 'free' | 'pro' | 'enterprise';
 
 export interface User {
-    id: string,
+    _id: string,
     email: string,
     name: string,
     plan: planType
 }
 
 export interface Link {
-    id: string,
+    _id: string | null;
     originalUrl: string,
     shortUrl: string,
     createdAt: string,

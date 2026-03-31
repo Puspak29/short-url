@@ -1,8 +1,18 @@
 import { useAuthStore } from '../stores/useAuthStore';
+import { useToastStore } from '../stores/useToastStore';
 
 
 function Settings() {
   const { user } = useAuthStore();
+  const { addToast } = useToastStore();
+  
+  const handleSaveChanges = () => {
+    addToast({
+      type: 'info',
+      message: 'Changes can not be made in this section'
+    });
+  }
+
   return (
     <div className="bg-zinc-900 p-10 rounded-[2.5rem] border border-zinc-800 shadow-sm">
         <h3 className="font-black text-xl text-white mb-6">Profile Settings</h3>
@@ -15,7 +25,7 @@ function Settings() {
             <label className="block text-xs font-black text-zinc-600 uppercase mb-2">Email Address</label>
             <input disabled type="email" defaultValue={user?.email} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-zinc-600 focus:ring-1 focus:ring-emerald-500 outline-none" />
             </div>
-            <button onClick={() => null} className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-emerald-500 transition shadow-lg shadow-emerald-900/20">Save Changes</button>
+            <button onClick={handleSaveChanges} className="bg-emerald-600 text-white px-8 py-3.5 rounded-xl font-bold text-sm hover:bg-emerald-500 transition shadow-lg shadow-emerald-900/20">Save Changes</button>
         </div>
     </div>
   )

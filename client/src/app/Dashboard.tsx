@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Footer, SidebarItem } from '../components';
-import { BarChart3, CreditCard, LayoutDashboard, Link2, LogOut, Search, Settings, Menu } from 'lucide-react';
+import { BarChart3, CreditCard, LayoutDashboard, Link2, LogOut, Settings, Menu } from 'lucide-react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores/useAuthStore';
 import { useToastStore } from '../stores/useToastStore';
@@ -15,7 +15,7 @@ const userPlanLimits = {
 
 function Dashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState<string>('');
+    // const [searchQuery, setSearchQuery] = useState<string>('');
     const activePath = useLocation();
     const { user, isLoading, logout, dashboardData } = useAuthStore();
     const { addToast } = useToastStore();
@@ -110,7 +110,7 @@ function Dashboard() {
                     <h1 className="text-3xl font-black text-white tracking-tight capitalize">{activePath.pathname.replace(/\//g, ' ').replace(/-/g, ' ').trim()}</h1>
                     <p className="text-zinc-500 font-medium tracking-tight uppercase text-[10px]">Control center for {APP_NAME}.</p>
                 </div>
-                {activePath.pathname === '/links' && (
+                {/* {activePath.pathname === '/links' && (
                     <div className="relative w-full sm:w-auto">
                     <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-600" />
                     <input 
@@ -121,7 +121,7 @@ function Dashboard() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     </div>
-                )}
+                )} */}
                 </div>
             )}
 

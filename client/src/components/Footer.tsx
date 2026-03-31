@@ -18,8 +18,8 @@ const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
           <div className="flex items-center gap-6">
             <button onClick={() => navigate('/status')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Status</button>
             <button onClick={() => navigate('/api-docs')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">API Docs</button>
-            <button onClick={() => navigate('/help')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Help Center</button>
             <button onClick={() => navigate('/privacy')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Privacy</button>
+            <button onClick={() => navigate('/terms')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Terms</button>
           </div>
         </div>
       </footer>

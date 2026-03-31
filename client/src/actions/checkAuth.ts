@@ -10,7 +10,7 @@ export const checkAuth = async () => {
         });
 
         const data = await response.json();
-        console.log('Check Auth Response:', data);
+        // console.log('Check Auth Response:', data);
         if(response.ok) {
             return {
                 isAuth: true,

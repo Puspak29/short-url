@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { LinkTable, StatCard } from ".";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/useAuthStore";
+import { useToastStore } from "../stores/useToastStore";
+import { createShortLink } from "../actions/linkAction";
 
 const DOMAIN = import.meta.env.VITE_DOMAIN;
 
@@ -16,10 +18,11 @@ const DashboardContent = () => {
         totalLinks: 0
     });
     const { user, dashboardData } = useAuthStore();
+    const { addToast } = useToastStore();
     
     useEffect(() => {
         setDashboardStats(dashboardData.stats);
-      console.log("Dashboard Data Updated:", dashboardData);
+      // console.log("Dashboard Data Updated:", dashboardData);
     }, [dashboardData.stats]);
 
     const isAliasValid = (plan: string, aliasCount: number) => {
@@ -35,9 +38,42 @@ const DashboardContent = () => {
       return false;
     }
   
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log("Creating short link for:", newUrl, "with alias:", alias);
+      const isCustom = alias.trim() !== '';
+      if (isCustom && !isAliasValid(user?.plan || 'free', dashboardStats.customLinks)) {
+        // Optionally show a toast or message indicating the alias limit has been reached
+        return;
+      }
+      try{
+        const response = await createShortLink(newUrl, isCustom, alias);
+        if(response.success) {
+          addToast({
+            type: 'success',
+            message: 'Short link created successfully!'
+          });
+          setNewUrl('');
+          setAlias('');
+          dashboardData.stats.totalLinks += 1;
+          dashboardData.lastFiveLinks = [response.data.link, ...dashboardData.lastFiveLinks];
+          if(isCustom) {
+            dashboardData.stats.customLinks += 1;
+          }
+        }
+        else{
+          addToast({
+            type: 'error',
+            message: response.message || 'Failed to create short link. Please try again.'
+          })
+        }
+      }
+      catch(error){
+        addToast({
+          type: 'error',
+          message: 'An error occurred while creating the short link. Please try again.'
+        })
+      }
+      
     };
 
     return (
