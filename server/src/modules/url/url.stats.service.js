@@ -35,11 +35,25 @@ exports.generateUrlStats = async (urlFilter, plan) => {
         stats.topCountry = topCountry;
 
         // country distribution
-        const countryDistribution  = countryStats.map(c => ({
+        const sortedCountries = countryStats.sort((a, b) => b.clicks - a.clicks);
+        const top5 = sortedCountries.slice(0, 5);
+        const others = sortedCountries.slice(5);
+       
+        const countryDistribution = top5.map(c => ({
             country: c.country,
-            percentage: Number(((c.uniqueVisitors / stats.uniqueVisitors) * 100).toFixed(2)),
-            clicks: c.clicks
+            clicks: c.clicks,
+            percentage: Number(((c.uniqueVisitors / stats.uniqueVisitors) * 100).toFixed(2))
         }));
+
+        if (others.length > 0) {
+            const othersClicks = others.reduce((sum, c) => sum + c.clicks, 0);
+            const othersUniqueVisitors = others.reduce((sum, c) => sum + c.uniqueVisitors, 0);
+            countryDistribution.push({
+            country: "Others",
+            clicks: othersClicks,
+            percentage: Number(((othersUniqueVisitors / stats.uniqueVisitors) * 100).toFixed(2))
+            });
+        }
         stats.countryDistribution = countryDistribution;
 
         // device stats
