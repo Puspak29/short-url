@@ -16,3 +16,24 @@ export interface Link {
     isActive?: boolean,
     isCustom?: boolean
 }
+
+export interface Stats {
+    totalClicks: number;
+    uniqueVisitors: number;
+    globalReach: number;
+    topCountry?: {
+        country: string;
+        clicks: number;
+        percentage: number;
+    } | null;
+    countryDistribution?: {
+        country: string;
+        percentage: number;
+        clicks: number;
+        }[];
+    deviceStats?: any[];
+    browserStats?: any[];
+    osStats?: any[];
+    referrerStats?: any[];
+    dailyClicks?: any[];
+}

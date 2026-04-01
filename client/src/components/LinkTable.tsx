@@ -1,7 +1,7 @@
 import { AlertTriangle, BarChart3, ChevronLeft, ChevronRight, Copy, Lock, Power, PowerOff, Trash2, X } from "lucide-react";
 // import { user, linkValues } from '../userValue';
 import { useNavigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthStore } from "../stores/useAuthStore";
 import { deleteLink, getLinks, toggleLinkStatus } from "../actions/linkAction";
 import { useLinkStore } from "../stores/useLinkStore";
@@ -29,8 +29,11 @@ const LinkTable = () => {
   const [totalLinks, setTotalLinks] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [selectedLinkId, setSelectedLinkId] = useState<string | null>(null);
+  const fetchRef = useRef(false);
 
   useEffect(() => {
+    if(fetchRef.current) return;
+    fetchRef.current = true;
     const fetchLinks = async () => {
       if(activePath.pathname === '/dashboard') {
         setLinks(dashboardData.lastFiveLinks);
@@ -50,6 +53,10 @@ const LinkTable = () => {
               setCurrentPage(response.data.pagination.page);      
               setItemsPerPage(response.data.pagination.limit);    
               setTotalLinks(response.data.pagination.total);
+              addToast({
+                type: 'success',
+                message: 'Links fetched successfully!'
+              });
             }
           }
           catch(error){
