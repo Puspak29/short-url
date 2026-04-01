@@ -3,6 +3,7 @@ import { Footer, AuthView, DashboardContent, LinkTable, Settings, Billing, Globa
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './stores/useAuthStore';
 import { useEffect } from 'react';
+import { PrivateRoutes, PublicRoutes } from './components/routes';
 
 function App() {
   const { checkAuthStatus, isAuthenticated } = useAuthStore();
@@ -31,17 +32,21 @@ function App() {
       <Route
         path="/auth/signin"
         element={
-          <AuthView 
-            mode="signin" 
-          />
+          <PublicRoutes>
+            <AuthView 
+              mode="signin" 
+            />
+          </PublicRoutes>
         }
       />
       <Route
         path="/auth/signup"
         element={
-          <AuthView  
-            mode="signup" 
-          />
+          <PublicRoutes>
+            <AuthView  
+              mode="signup" 
+            />
+          </PublicRoutes>
         }
       />
       <Route 
@@ -52,7 +57,11 @@ function App() {
         path="/privacy"
         element={<LegalLayout type="privacy" />}
       />
-      <Route element={<Dashboard />}>
+      <Route element={
+        <PrivateRoutes>
+          <Dashboard />
+        </PrivateRoutes>
+      }>
         <Route path="/dashboard" element={<DashboardContent />} />
         <Route path="/links" element={(
           <div className="bg-zinc-900 rounded-[2.5rem] border border-zinc-800 shadow-sm overflow-hidden">
