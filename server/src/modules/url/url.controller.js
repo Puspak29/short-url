@@ -87,9 +87,9 @@ exports.redirectToOriginalUrl = handleError(async (req, res) => {
     const redisClient = getRedisClient();
     const cacheKey = `shortUrl:${shortCode}`;
     
-    let cached = await redisClient.get(cacheKey);
+    let cached = redisClient ? await redisClient.get(cacheKey) : null;
     let urlEntry;
-    if(cached){
+    if(redisClient && cached){
         cached = JSON.parse(cached);
         logger.info(`Cache hit for short code: ${shortCode}`);
     }
@@ -103,9 +103,11 @@ exports.redirectToOriginalUrl = handleError(async (req, res) => {
             originalUrl: urlEntry.originalUrl,
             _id: urlEntry._id
         }
-
-        await redisClient.set(cacheKey, JSON.stringify(cached), { EX: CACHE_TTL });
-        logger.info(`Cache miss for short code: ${shortCode}. Data cached for future requests.`);
+        
+        if(redisClient){
+            await redisClient.set(cacheKey, JSON.stringify(cached), { EX: CACHE_TTL });
+           logger.info(`Cache miss for short code: ${shortCode}. Data cached for future requests.`);
+        }
     }
     
     res.redirect(cached.originalUrl);

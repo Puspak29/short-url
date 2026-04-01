@@ -1,11 +1,16 @@
-const { REDIS_HOST, REDIS_PORT, REDIS_TLS, REDIS_USERNAME, REDIS_PASSWORD } = require('./env');
+const { REDIS_HOST, REDIS_PORT, REDIS_TLS, REDIS_USERNAME, REDIS_PASSWORD, NODE_ENV } = require('./env');
 const { createClient } = require('redis');
 const logger = require('../utils/logger');
 
 let redisClient;
 
 const connectRedis = async() => {
-    try{
+    try{   
+        if(NODE_ENV === 'test'){
+            logger.info('Skipping Redis connection in test environment');
+            return;
+        }
+        
         redisClient = createClient({
             username: process.env.REDIS_USERNAME,
             password: process.env.REDIS_PASSWORD,
@@ -26,13 +31,12 @@ const connectRedis = async() => {
     }
     catch(err){
         logger.error('Error connecting to Redis:');
-        process.exit(1);
     }
 }
 
 const getRedisClient = () => {
     if(!redisClient){
-        throw new Error('Redis client not initialized. Call connectRedis first.');
+        return null;
     }
     return redisClient;
 }

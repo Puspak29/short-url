@@ -8,6 +8,12 @@ const MAX_REQUESTS = 15;
 
 exports.rateLimiter = handleError(async(req, res, next) => {
     const redisClient = getRedisClient();
+
+    if(!redisClient){
+        logger.warn('Redis client not available, skipping rate limiting');
+        return next();
+    }
+
     const ip = req.ip;
     const key = `rate_limit:${ip}`;
 
