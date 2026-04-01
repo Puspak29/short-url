@@ -3,7 +3,6 @@ const sendResponse = require('../../utils/sendResponse');
 const { generateShortCode, validateShortCode } = require('../../utils/shortId');
 const URL = require('../../models/url');
 const User = require('../../models/user');
-const { FRONTEND_URL } = require('../../config/env');
 const { normalizeAndValidateUrl } = require('../../utils/urlValidator');
 const Click = require('../../models/click');
 const UAParser = require('ua-parser-js');
