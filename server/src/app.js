@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
     return sendResponse(res, 200, true, 'Short URL API is running');
 });
 
-if(NODE_ENV === 'test'){
+if(NODE_ENV !== 'test'){
     app.use('/api', rateLimiter);
 }
 app.use('/api/auth', authRoutes);
