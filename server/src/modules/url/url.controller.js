@@ -203,6 +203,11 @@ exports.getAllUrls = handleError(async(req, res) => {
 exports.getAllStats = handleError(async(req, res) => {
     const user = req.user;
     const urls = await URL.find({ user: user._id }).select('_id');
+    
+    if(urls.length === 0){
+        return sendResponse(res, 200, true, 'No URLs found', { stats: {} });
+    }
+
     const urlIds = urls.map(url => url._id);
 
     if(urlIds.length === 0){

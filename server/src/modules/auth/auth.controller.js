@@ -60,7 +60,8 @@ exports.checkAuth = handleError(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            plan: user.plan
+            plan: user.plan,
+            monthlyUrlCount: user.monthlyUrlCount
         },
         dashboardData: {
             stats,
