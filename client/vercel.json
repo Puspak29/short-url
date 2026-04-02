@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "${VITE_BACKEND_URL}/api/:path*"
+    },
+    {
+      "source": "/r/:path*",
+      "destination": "${VITE_BACKEND_URL}/r/:path*"
+    }
+  ]
+}
