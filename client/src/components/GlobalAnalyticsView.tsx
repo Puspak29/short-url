@@ -44,7 +44,7 @@ import { getGlobalStats } from "../actions/linkAction";
               </div>
               <div>
                 <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-0.5">Total Network Clicks</p>
-                <h4 className="text-xl font-black text-white">{globalStats?.totalClicks}</h4>
+                <h4 className="text-xl font-black text-white">{globalStats?.totalClicks || 0}</h4>
               </div>
            </div>
            <div className="bg-zinc-900 p-6 rounded-4xl border border-zinc-800 shadow-sm flex items-center gap-4">
@@ -53,7 +53,7 @@ import { getGlobalStats } from "../actions/linkAction";
               </div>
               <div>
                 <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-0.5">Unique Visitors</p>
-                <h4 className="text-xl font-black text-white">{globalStats?.uniqueVisitors}</h4>
+                <h4 className="text-xl font-black text-white">{globalStats?.uniqueVisitors || 0}</h4>
               </div>
            </div>
            <div className="bg-zinc-900 p-6 rounded-4xl border border-zinc-800 shadow-sm flex items-center gap-4">
@@ -62,7 +62,7 @@ import { getGlobalStats } from "../actions/linkAction";
               </div>
               <div>
                 <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-0.5">Global Reach</p>
-                <h4 className="text-xl font-black text-white">{globalStats?.globalReach} Countries</h4>
+                <h4 className="text-xl font-black text-white">{globalStats?.globalReach || 0} Countries</h4>
               </div>
            </div>
         </div>
@@ -80,7 +80,7 @@ import { getGlobalStats } from "../actions/linkAction";
               </div>
 
               <div className="mt-12">
-                <div className="text-6xl font-black tracking-tighter mb-2">{globalStats?.topCountry?.clicks}</div>
+                <div className="text-6xl font-black tracking-tighter mb-2">{globalStats?.topCountry?.clicks || 0}</div>
                 <p className="text-emerald-200 text-sm font-bold">Clicks recorded in the last 30 days</p>
               </div>
             </div>
@@ -105,7 +105,7 @@ import { getGlobalStats } from "../actions/linkAction";
                       <span className="text-sm font-black text-zinc-300 group-hover:text-emerald-400 transition-colors">{c.country}</span>
                     </div>
                     <div className="flex items-center gap-4">
-                      <span className="text-xs font-bold text-zinc-500">{c.clicks?.toLocaleString()}</span>
+                      <span className="text-xs font-bold text-zinc-500">{c.clicks?.toLocaleString() || 0}</span>
                       <span className="text-xs font-black text-zinc-100 w-10 text-right">{c.percentage}%</span>
                     </div>
                   </div>

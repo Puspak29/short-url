@@ -1,4 +1,4 @@
-import { Dashboard, LandingLayout, LegalLayout } from './app/index';
+import { AboutUs, Dashboard, LandingLayout, LegalLayout } from './app/index';
 import { Footer, AuthView, DashboardContent, LinkTable, Settings, Billing, GlobalAnalyticsView, LinkDetailsView, ToastContainer } from './components';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './stores/useAuthStore';
@@ -56,6 +56,10 @@ function App() {
       <Route 
         path="/privacy"
         element={<LegalLayout type="privacy" />}
+      />
+      <Route
+        path="/about"
+        element={<AboutUs />}
       />
       <Route element={
         <PrivateRoutes>

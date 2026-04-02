@@ -27,12 +27,17 @@ export const userLogin = async (userInfo: UserInfo) => {
 
 export const userSignup = async (userInfo: UserInfo & { fullName: string }) => {
     try{
-        const response = await fetch('/api/auth/signup', {
+        const payLoad = {
+            email: userInfo.email,
+            password: userInfo.password,
+            name: userInfo.fullName
+        }
+        const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(userInfo)
+            body: JSON.stringify(payLoad)
         });
 
         const data = await response.json();

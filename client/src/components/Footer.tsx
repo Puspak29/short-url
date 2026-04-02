@@ -1,5 +1,5 @@
 import { Github, Globe, Link2, Linkedin, Twitter } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;
 const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
@@ -16,8 +16,8 @@ const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
             {APP_NAME} &copy; {currentYear}
           </div>
           <div className="flex items-center gap-6">
-            <button onClick={() => navigate('/status')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Status</button>
-            <button onClick={() => navigate('/api-docs')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">API Docs</button>
+            {/* <button onClick={() => navigate('/status')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Status</button> */}
+            {/* <button onClick={() => navigate('/api-docs')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">API Docs</button> */}
             <button onClick={() => navigate('/privacy')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Privacy</button>
             <button onClick={() => navigate('/terms')} className="text-[10px] font-black text-zinc-500 hover:text-emerald-400 uppercase tracking-widest">Terms</button>
           </div>
@@ -41,25 +41,25 @@ const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
               The modern standard for link management. Built for creators, developers, and global marketing teams.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-600 transition-colors text-white">
+              <Link to="https://x.com/PuspakSamanta" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-600 transition-colors text-white">
                 <Twitter size={18} />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-600 transition-colors text-white">
+              </Link>
+              <Link to="https://github.com/Puspak29" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-600 transition-colors text-white">
                 <Github size={18} />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-600 transition-colors text-white">
+              </Link>
+              <Link to="https://www.linkedin.com/in/puspak-samanta/" className="w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 flex items-center justify-center hover:bg-emerald-600 transition-colors text-white">
                 <Linkedin size={18} />
-              </a>
+              </Link>
             </div>
           </div>
           
           <div>
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Platform</h4>
             <ul className="space-y-4 text-sm font-bold text-zinc-500">
-              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">URL Shortener</button></li>
-              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">QR Codes</button></li>
-              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">Analytics</button></li>
-              <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">API Access</button></li>
+              <li><button onClick={() => navigate('/dashboard')} className="hover:text-emerald-400 transition-colors">URL Shortener</button></li>
+              {/* <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">QR Codes</button></li> */}
+              <li><button onClick={() => navigate('/analytics')} className="hover:text-emerald-400 transition-colors">Analytics</button></li>
+              {/* <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">API Access</button></li> */}
             </ul>
           </div>
 
@@ -67,17 +67,17 @@ const Footer = ({ isDashboard }: { isDashboard: boolean }) => {
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Company</h4>
             <ul className="space-y-4 text-sm font-bold text-zinc-500">
               <li><button onClick={() => navigate('/about')} className="hover:text-emerald-400 transition-colors">About Us</button></li>
-              <li><button onClick={() => navigate('/careers')} className="hover:text-emerald-400 transition-colors">Careers</button></li>
+              {/* <li><button onClick={() => navigate('/careers')} className="hover:text-emerald-400 transition-colors">Careers</button></li> */}
               <li><button onClick={() => navigate('/')} className="hover:text-emerald-400 transition-colors">Pricing</button></li>
-              <li><button onClick={() => navigate('/brand')} className="hover:text-emerald-400 transition-colors">Brand Assets</button></li>
+              {/* <li><button onClick={() => navigate('/brand')} className="hover:text-emerald-400 transition-colors">Brand Assets</button></li> */}
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Resources</h4>
             <ul className="space-y-4 text-sm font-bold text-zinc-500">
-              <li><button onClick={() => navigate('/help')} className="hover:text-emerald-400 transition-colors">Help Center</button></li>
-              <li><button onClick={() => navigate('/status')} className="hover:text-emerald-400 transition-colors">Status</button></li>
+              {/* <li><button onClick={() => navigate('/help')} className="hover:text-emerald-400 transition-colors">Help Center</button></li> */}
+              {/* <li><button onClick={() => navigate('/status')} className="hover:text-emerald-400 transition-colors">Status</button></li> */}
               <li><button onClick={() => navigate('/privacy')} className="hover:text-emerald-400 transition-colors">Privacy Policy</button></li>
               <li><button onClick={() => navigate('/terms')} className="hover:text-emerald-400 transition-colors">Terms of Service</button></li>
             </ul>

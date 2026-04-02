@@ -4,7 +4,8 @@ export interface User {
     _id: string,
     email: string,
     name: string,
-    plan: planType
+    plan: planType,
+    monthlyUrlCount: number
 }
 
 export interface Link {

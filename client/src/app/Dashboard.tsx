@@ -67,7 +67,7 @@ function Dashboard() {
                 <div className="w-full bg-zinc-950 h-1.5 rounded-full overflow-hidden mb-2">
                 <div className="bg-emerald-600 h-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" style={{ width: user?.plan === 'free' ? `${(dashboardData?.stats?.totalLinks / userPlanLimits[user?.plan as keyof typeof userPlanLimits]) * 100}%` : '10%' }}></div>
                 </div>
-                <p className="text-[10px] text-zinc-600 mb-3">{dashboardData?.stats?.totalLinks} / {userPlanLimits[user?.plan as keyof typeof userPlanLimits] || '∞'} used</p>
+                <p className="text-[10px] text-zinc-600 mb-3">{user?.monthlyUrlCount || 0} / {userPlanLimits[user?.plan as keyof typeof userPlanLimits] || '∞'} used</p>
                 {user?.plan === 'free' && (
                 <Link to="/billing" className="w-full py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-500 transition shadow-lg shadow-emerald-900/20">Upgrade</Link>
                 )}
