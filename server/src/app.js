@@ -7,11 +7,17 @@ const redirectRoutes = require('./modules/url/redirect.routes');
 const subscriptionRoutes = require('./modules/subscription/subscription.routes');
 const requestLogger = require('./middlewares/requestLogger');
 const { rateLimiter } = require('./middlewares/rateLimiter');
-const { NODE_ENV } = require('./config/env');
+const { NODE_ENV, FRONTEND_URL } = require('./config/env');
 
 const app = express();
 
-app.use(cors());
+
+const corsOptions = {
+    origin: FRONTEND_URL,
+    methods: '*',
+    credentials: true,
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', true);

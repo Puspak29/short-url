@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/:path*",
+            "destination": "https://short-url-ze2z.onrender.com/api/:path*"
+        },
+        {
+            "source": "/r/:path*",
+            "destination": "https://short-url-ze2z.onrender.com/r/:path*"
+        }
+    ]
+}
