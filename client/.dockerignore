@@ -1,0 +1,11 @@
+**/.env*
+**/.git
+**/.gitignore
+**/node_modules
+**/npm-debug.log
+**/dist
+**/build
+**/.vscode
+**/Dockerfile*
+**/compose.y*ml
+**/README.md

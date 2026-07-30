@@ -7,7 +7,7 @@ const SERVICE_TIERS = [
   {
     id: 'free',
     name: 'Free',
-    price: '$0',
+    price: '₹0',
     billing: 'Per month',
     description: 'Basic infrastructure for individual use and hobby projects.',
     features: [
@@ -22,7 +22,7 @@ const SERVICE_TIERS = [
   {
     id: 'pro',
     name: 'Pro',
-    price: '$19',
+    price: '₹89',
     billing: 'Per month',
     description: 'Extended capabilities for power users and growing brands.',
     features: [
@@ -39,7 +39,7 @@ const SERVICE_TIERS = [
   {
     id: 'enterprise',
     name: 'Enterprise',
-    price: '$59',
+    price: '₹299',
     billing: 'Per month',
     description: 'High-availability systems for global organizations and teams.',
     features: [

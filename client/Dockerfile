@@ -1,0 +1,21 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+ARG VITE_APP_NAME
+ARG VITE_BACKEND_URL
+ARG VITE_DOMAIN
+
+ENV VITE_APP_NAME=$VITE_APP_NAME
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+ENV VITE_DOMAIN=$VITE_DOMAIN
+
+RUN npm ci
+
+COPY . .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
