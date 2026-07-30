@@ -33,6 +33,7 @@ jobs:
         env:
           NODE_ENV: test
           JWT_SECRET: test_jwt_secret
+          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
 
   backend-cd:
     needs: backend-ci
