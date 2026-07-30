@@ -12,5 +12,9 @@ module.exports = {
     REDIS_PORT: process.env.REDIS_PORT,
     REDIS_USERNAME: process.env.REDIS_USERNAME || undefined,
     REDIS_PASSWORD: process.env.REDIS_PASSWORD || undefined,
-    REDIS_TLS: process.env.REDIS_TLS === 'true'
+    REDIS_TLS: process.env.REDIS_TLS === 'true',
+
+    // Razorpay configuration
+    RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
+    RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET,
 }

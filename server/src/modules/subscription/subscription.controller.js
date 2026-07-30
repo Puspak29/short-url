@@ -1,27 +1,23 @@
 const handleError = require("../../utils/handleError");
 const sendResponse = require("../../utils/sendResponse");
+const subscriptionService = require('./subscription.service');
 
-exports.subscribe = handleError(async(req, res) => {
-    const user = req.user;
-    const { plan,  period } = req.body;
+exports.createOrder = handleError(async (req, res) => {
+  const { plan } = req.body;
+  const order = await subscriptionService.createOrder({ user: req.user, plan });
+  return sendResponse(res, 200, true, 'Order created successfully', { order });
+}, 'Failed to create order');
 
-    if(user.plan === 'pro' || user.plan === 'enterprise') {
-        return sendResponse(res, 400, false, 'You are already subscribed to a plan');
-    }
+exports.verifyOrder = handleError(async (req, res) => {
+  const { orderId, paymentId, signature } = req.body;
+  const result = await subscriptionService.verifyOrder({ user: req.user, orderId, paymentId, signature });
+  return sendResponse(res, 200, true, 'Order verified successfully', {
+    plan: result.plan,
+    validTill: result.validTill
+  });
+}, 'Failed to verify order');
 
-    // TODO: Integrate payment provider (Razorpay) to create subscription and get subscription details
-}, 'Failed to subscribe to plan');
-
-exports.cancelSubscription = handleError(async(req, res) => {
-    const user = req.user;
-    if(user.plan === 'free') {
-        return sendResponse(res, 400, false, 'You do not have an active subscription to cancel');
-    }
-
-    user.plan = 'free';
-    user.subscriptionStatus = 'canceled';
-
-    await user.save();
-
-    return sendResponse(res, 200, true, 'Subscription canceled successfully');
-}, 'Failed to cancel plan');
+exports.cancelSubscription = handleError(async (req, res) => {
+  await subscriptionService.cancelSubscription({ user: req.user });
+  return sendResponse(res, 200, true, 'Subscription canceled successfully');
+}, 'Failed to cancel subscription');

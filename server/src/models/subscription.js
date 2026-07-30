@@ -7,34 +7,30 @@ const subscriptionSchema = new mongoose.Schema({
         required: true,
         index: true
     },
-
-    paymentProvider: {
-        type: String,
-        enum: ['stripe', 'razorpay', 'none'],
-        default: 'none'
-    },
-
-    paymentProviderSubscriptionId: {
-        type: String,
-        default: null
-    },
     plan: {
         type: String,
-        enum: ['free', 'pro', 'enterprise'],
-        default: 'free'
+        enum: ['pro', 'enterprise'],
+        required: true
     },
     status: {
         type: String,
-        enum: ['active', 'canceled', 'past_due', 'unpaid'],
-        default: 'active'
+        enum: ['active', 'canceled', 'in_progress', 'unpaid'],
+        default: 'in_progress'
+    },
+    currentPeriodStart: {
+        type: Date,
+        default: Date.now
     },
     currentPeriodEnd: {
         type: Date,
+        required: true
     }
 
 },{
     timestamps: true
 });
+
+subscriptionSchema.index({ user: 1, status: 1 });
 
 const Subscription = mongoose.model('Subscription', subscriptionSchema);
 

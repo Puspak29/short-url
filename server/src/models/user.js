@@ -44,21 +44,6 @@ const userSchema = new mongoose.Schema({
         default: 0
     },
 
-    // Payment fields
-    paymentProvider: {
-        type: String,
-        enum: ['stripe', 'razorpay', 'none'],
-        default: 'none'
-    },
-    paymentProviderCustomerId: {
-        type: String,
-        default: null
-    },
-    paymentProviderSubscriptionId: {
-        type: String,
-        default: null
-    },
-
     subscriptionStatus: {
         type: String,
         enum: ['active', 'canceled', 'past_due', 'unpaid', 'none'],
@@ -67,9 +52,6 @@ const userSchema = new mongoose.Schema({
 },{
     timestamps: true
 });
-
-userSchema.index({ paymentProviderCustomerId: 1 });
-userSchema.index({ paymentProviderSubscriptionId: 1 });
 
 const User = mongoose.model('User', userSchema);
 

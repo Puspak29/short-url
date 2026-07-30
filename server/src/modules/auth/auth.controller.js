@@ -17,6 +17,7 @@ exports.register = handleError(async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const resetDate = new Date();
     resetDate.setMonth(resetDate.getMonth() + 1);
+    resetDate.setDate(1);
 
     const user = await User.create({
         name,
